@@ -1,0 +1,26 @@
+class Solution {
+public:
+    int rob(vector<int>& nums) {
+        int N = nums.size();
+        vector<int> left(N, 0); // left[i] presents maximum rob value before ith
+        vector<int> right(N, 0); // right[i] presents maximum rob value after ith
+        
+        for (int i = 2; i < N; ++i) {
+            // Comparing between
+            // left[i - 1] -> chose to not rob at ith
+            // left[i - 2] -> chose to rob at ith
+            left[i] = max(left[i - 1], left[i - 2] + nums[i - 2]);
+            right[N - 1 - i] = max(right[N - i], right[N - i + 1] + nums[N - i + 1]);
+        }
+
+        int res = 0;
+
+        for (int i = 0; i < N; ++i) {
+            // result is maximum rob value before ith + maximum rob value after ith + rob valu at ith
+            res = max(res, left[i] + right[i] + nums[i]);
+        }
+
+        return res;
+
+    }
+};
