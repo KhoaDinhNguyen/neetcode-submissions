@@ -1,0 +1,21 @@
+class Solution {
+public:
+    vector<int> dp;
+    int numDecodings(string& s, int i) {
+        if (i >= s.size()) return 1;
+        
+        if (dp[i] != -1) return dp[i];
+        if (s[i] == '0') return dp[i] = 0;
+
+        int res = numDecodings(s, i + 1);
+        res += (i + 1 < s.size() && s[i] == '1') ? numDecodings(s, i + 2): 0;
+        res += (i + 1 < s.size() && s[i] == '2' && '0' <= s[i + 1] && s[i + 1] <= '6') ? numDecodings(s, i + 2): 0;
+
+        return dp[i] = res;
+    }
+    int numDecodings(string s) {
+        dp = vector<int>(s.size(), -1);
+
+        return numDecodings(s, 0);
+    }
+};
